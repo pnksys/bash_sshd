@@ -8,8 +8,7 @@ ListIP=$(w | egrep -v 'USER|^ '| awk '{print $3}')
 for ip in $ListDomain; do
   if [ "$ip" == "$know_domain" ]; then
     messauthor="OK !"
-  fi
-else
+  else
   if [ ! "$ip" == "$know_domain" ]; then
     process=$(ps aux | grep $ip | head -1) | awk '{print $2}')
     kill -p $process
