@@ -5,15 +5,15 @@ MAIL="phuongnk@ods.vn"
 Subject="Warning...! "
 ListDomain=$(w | egrep -v 'USER|^ '| awk '{print $3}' | egrep '^[a-z]')
 ListIP=$(w | egrep -v 'USER|^ '| awk '{print $3}') 
-for i in $ListDomain; do
-  if [ "$i" == "$know_domain" ]; then
+for ip in $ListDomain; do
+  if [ "$ip" == "$know_domain" ]; then
     messauthor="OK !"
   fi
 else
-  if [ ! "$i" == "$know_domain" ]; then
-    process=$(ps aux | grep $i | head -1) | awk '{print $2}')
+  if [ ! "$ip" == "$know_domain" ]; then
+    process=$(ps aux | grep $ip | head -1) | awk '{print $2}')
     kill -p $process
-    iptables -I INPUT -p tcp --source $i -j DROPT
+    iptables -I INPUT -p tcp --source $ip -j DROPT
   fi
 done
 
