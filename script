@@ -10,8 +10,9 @@ for ip in $ListDomain; do
     messauthor="OK !"
   else
   if [ ! "$ip" == "$know_domain" ]; then
-    process=$(ps aux | grep $ip | head -1) | awk '{print $2}')
-    kill -p $process
+    process=$(w | awk {'print $2 " " $3'}| egrep -v 'up|TTY' | grep $ip | awk '{print $1}')
+    processid=$(ps aux | grep $PTS | grep sshd | awk '{print $2}')
+    kill -p $processid
     iptables -I INPUT -s $ip -j DROP
   fi
 done
