@@ -12,7 +12,7 @@ for ip in $ListDomain; do
   if [ ! "$ip" == "$know_domain" ]; then
     process=$(ps aux | grep $ip | head -1) | awk '{print $2}')
     kill -p $process
-    iptables -I INPUT -p tcp --source $ip -j DROPT
+    iptables -I INPUT -p tcp --source $ip -j DROP
   fi
 done
 
