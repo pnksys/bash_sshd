@@ -1,4 +1,4 @@
-#/bin/bash
+#!/bin/bash
 know_domain="blackip.freeddns.org"
 know_ip="112.78.13.56"
 MAIL="phuongnk@ods.vn"
