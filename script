@@ -1,20 +1,29 @@
 #!/bin/bash
 know_domain="blackip.freeddns.org"
 know_ip="112.78.13.56"
-MAIL="phuongnk@ods.vn"
-Subject="Warning...! "
 ListDomain=$(w | egrep -v 'USER|^ '| awk '{print $3}' | egrep '^[a-z]')
 ListIP=$(w | egrep -v 'USER|^ '| awk '{print $3}') 
+#Check Domain
 for ip in $ListDomain; do
   if [ "$ip" == "$know_domain" ]; then
-    messauthor="OK !"
   else
-  if [ ! "$ip" == "$know_domain" ]; then
+    if [ ! "$ip" == "$know_domain" ]; then
+      process=$(w | awk {'print $2 " " $3'}| egrep -v 'up|TTY' | grep $ip | awk '{print $1}')
+      processid=$(ps aux | grep $process | grep sshd | awk '{print $2}')
+      kill -9 $processid
+      iptables -I INPUT -s $ip -j DROP
+    fi
+  fi
+done
+#
+##Check IP
+for ip in $ListIP; do
+  if [ "$ip" == "$know_ip" ]; then
+  else
     process=$(w | awk {'print $2 " " $3'}| egrep -v 'up|TTY' | grep $ip | awk '{print $1}')
-    processid=$(ps aux | grep $PTS | grep sshd | awk '{print $2}')
-    kill -p $processid
+    processid=$(ps aux | grep $process | grep sshd | awk '{print $2}')
+    kill -9 $processid
     iptables -I INPUT -s $ip -j DROP
   fi
 done
-
   
