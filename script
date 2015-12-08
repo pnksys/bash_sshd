@@ -1,8 +1,8 @@
 #!/bin/bash
 know_domain="blackip.freeddns.org"
 know_ip="112.78.13.56"
-ListDomain=$(w | egrep -v 'USER|^ '| awk '{print $3}' | egrep '^[a-z]')
-ListIP=$(w | egrep -v 'USER|^ '| awk '{print $3}') 
+ListDomain=$(w | egrep -v 'USER|^ '| awk '{print $3}' | egrep ^[a-z] | xargs dig $1 +short)
+ListIP=$(w | egrep -v 'USER|^ '| awk '{print $3}'| egrep ^[0-9]) 
 #Check Domain
 for ip in $ListDomain; do
     if [ ! "$ip" == "$know_domain" ]; then
